@@ -15,7 +15,7 @@ angular.module('draftAssistApp')
         })
         .then( function() {
           // Logged in, redirect to home
-          $location.path('/');
+          $location.path('/players');
         })
         .catch( function(err) {
           $scope.errors.other = err.message;

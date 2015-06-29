@@ -6,8 +6,9 @@ var Player = require('../player/player.model');
 var User = require('../user/user.model');
 
 function findPlayerInTeam(user, id) {
-  return _.find(user.team.players, function(teamPlayer) {
+  return _.find(user.team, function(teamPlayer) {
     console.log('Comparing ' + teamPlayer.player + ' to ' + id);
+    console.log(user.team.players);
     return teamPlayer.player.equals(id) || teamPlayer._id.equals(id);
   });
 }
@@ -52,8 +53,8 @@ exports.addPlayer = function(req, res) {
       }
       else {
         console.log('Adding player to team: ' + player.name);
-        user.team = ( new Team( { player: player, qty: 1 } ) );
-
+        console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' )
+        user.team = ( new Player( { player: player } ) );
       }
       user.save(function() {
         user.populate('team.player', function(err, user) {
