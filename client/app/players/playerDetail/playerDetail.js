@@ -5,7 +5,7 @@ angular.module('draftAssistApp')
   $stateProvider
   .state('playerDetail', {
       url: '/players/:playerId',
-      templateUrl: 'app/playerDetail/playerDetail.html',
+      templateUrl: 'app/players/playerDetail/playerDetail.html',
       controller: 'PlayerDetailCtrl as ctrl',
       onEnter: function() {
         console.log('Entering playerDetail');

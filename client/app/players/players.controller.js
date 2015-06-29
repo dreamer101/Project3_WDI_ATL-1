@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('draftAssistApp')
-.controller('PlayersCtrl', function($state, playerService, teamService) {
+.controller('PlayersCtrl', function ($state, playerService, teamService) {
 
   var that = this;
 
