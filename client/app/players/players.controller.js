@@ -23,18 +23,18 @@ angular.module('draftAssistApp')
   that.getRoster();
 
 
-  //   teamService.getTeam().then(function(json) {
-  //     that.team = json.data;
-  //     that.total = teamService.getTotal(that.team);
-  //   });
-  // that.addPlayer = function(player) {
-  //   teamService.addPlayer(player).then(function(json) {
-  //     that.team = json.data;
-  //     that.total = teamService.getTotal(that.team);
-  //   }, function(err) {
-  //     console.log('ERROR: addPlayer post: ' + JSON.stingify(err));
-  //   });
-  // };
+    teamService.getTeam().then(function(json) {
+      that.team = json.data;
+      that.total = teamService.getTotal(that.team);
+    });
+  that.addPlayer = function(player) {
+    teamService.addPlayer(player).then(function(json) {
+      that.team = json.data;
+      that.total = teamService.getTotal(that.team);
+    }, function(err) {
+      console.log('ERROR: addPlayer post: ' + JSON.stringify(err));
+    });
+  };
 
   // that.removePlayer = function(player) {
   //   teamService.removePlayer(player).then(function(json) {

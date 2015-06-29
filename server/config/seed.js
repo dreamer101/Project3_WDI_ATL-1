@@ -8,6 +8,7 @@
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 var Player = require('../api/player/player.model');
+var Team = require('../api/team/team.model');
 
 Thing.find({}).remove(function() {
   Thing.create({
@@ -44,9 +45,38 @@ User.find({}).remove(function() {
     email: 'admin@admin.com',
     password: 'admin'
   }, function() {
-      console.log('finished populating users');
-    }
-  );
+    User.find({}, function(err, users) {
+      // at this point we have created 2 users
+      // create some teams and assign to users
+      Team.find({}).remove(function() {
+        Team.create({
+          name: 'Broncos', players: [],
+        }, {
+          name: 'Falcons', players: []
+        }, function() {
+          Team.find({}, function(err, teams) {
+            users[0].team = teams[0];
+            users[0].save(function(err, user) {
+              User.findById(user._id).
+              populate("team")
+              .exec(function(err, user) {
+                console.log('Saved user: ' + JSON.stringify(user));
+              });
+            });
+            users[1].team = teams[1];
+            users[1].save(function(err, user) {
+              User.findById(user._id).
+              populate("team")
+              .exec(function(err, user) {
+                console.log('Saved user: ' + JSON.stringify(user));
+              });
+            });
+            console.log('finished populating users');
+          });
+        });
+      });
+    });
+  });
 });
 
 Player.find({}).remove(function() {

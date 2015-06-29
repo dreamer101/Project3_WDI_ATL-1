@@ -9,13 +9,11 @@ var errors = require('./components/errors');
 module.exports = function(app) {
 
   // Insert routes below
-  app.use('/api/users', require('./api/team'));
-  app.use('/For the url of the endpoint, enter: /api/users/:userId/cart.', require('./api/team'));
-  app.use('/api/users', require('./api/team'));
+
   app.use('/api/players', require('./api/player'));
   app.use('/api/things', require('./api/thing'));
   app.use('/api/users', require('./api/user'));
-
+  app.use('/api/users', require('./api/team'));
   app.use('/auth', require('./auth'));
 
   // All undefined asset or api routes should return a 404

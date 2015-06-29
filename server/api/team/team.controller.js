@@ -6,9 +6,7 @@ var Player = require('../player/player.model');
 var User = require('../user/user.model');
 
 function findPlayerInTeam(user, id) {
-  // _.find([1, 2, 3, 4, 5, 6], function(num){ return num % 2 == 0; });
-  return _.find(user.team, function(teamPlayer) {
-    // return teamPlayer.player === id;    // does not work!
+  return _.find(user.team.players, function(teamPlayer) {
     console.log('Comparing ' + teamPlayer.player + ' to ' + id);
     return teamPlayer.player.equals(id) || teamPlayer._id.equals(id);
   });
@@ -34,6 +32,7 @@ exports.get = function(req, res) {
 // Add a new player to the team or update the qty and return the team.
 exports.addPlayer = function(req, res) {
   console.log('addPlayer, url = ' + req.url);
+  console.log('userid is' + req.params.userid + 'playerid is: ' + req.params.playerid);
   var userId = req.params.userid.trim();
   var playerId = req.params.playerid.trim();
   console.log('userId: ' + userId + ', playerId: ' + playerId);
@@ -46,14 +45,15 @@ exports.addPlayer = function(req, res) {
       if (!user) { return res.send(404); }
 
       // Check if player is already in team
-      var found = findPlayerInCart(user, player._id);
+      var found = findPlayerInTeam(user, player._id);
       if (found) {
         console.log('Found player ' + player.name + ' in team, therefore incrementing qty');
         found.qty = found.qty + 1;
       }
       else {
         console.log('Adding player to team: ' + player.name);
-        user.team.push( new CartPlayer( { player: player, qty: 1 } ) );
+        user.team = ( new Team( { player: player, qty: 1 } ) );
+
       }
       user.save(function() {
         user.populate('team.player', function(err, user) {

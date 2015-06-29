@@ -12,6 +12,7 @@ angular.module('draftAssistApp')
 
   that.addPlayer = function(player) {
     var userId = Auth.getCurrentUser()._id;
+    console.log('the playerid is ' + player._id);
     return $http.post('/api/users/' + userId + '/team/' + player._id);
   };
 
