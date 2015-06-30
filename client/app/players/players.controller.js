@@ -10,6 +10,8 @@ angular.module('draftAssistApp')
   // that.roster = playerService.roster;
   // that.team = teamService.team;
 
+
+//Fetch all players from server:
   that.getRoster = function() {
     playerService.getPlayers().then(function(json) {
       that.roster = json.data;
@@ -22,11 +24,13 @@ angular.module('draftAssistApp')
 
   that.getRoster();
 
+//Get a users team
+//TODO: implement this and make it only for signed in users
+    // teamService.getTeam().then(function(json) {
+    //   that.team = json.data;
+    //   that.total = teamService.getTotal(that.team);
+    // });
 
-    teamService.getTeam().then(function(json) {
-      that.team = json.data;
-      that.total = teamService.getTotal(that.team);
-    });
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
       that.team = json.data;
