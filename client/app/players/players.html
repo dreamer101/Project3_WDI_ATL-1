@@ -46,6 +46,7 @@
 
 <section class="team text-center">
   <h2>Your Team:</h2>
+  {{ctrl.team[0].players[0].name}}
   <ul>
     <li class="team animate-team2" ng-repeat="teamPlayer in ctrl.team">
       <span>{{ teamPlayer.qty + ' x ' + teamPlayer.position + ' = ' + ctrl.getPoints(teamPlayer) }}</span>

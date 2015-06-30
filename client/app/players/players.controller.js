@@ -26,10 +26,11 @@ angular.module('draftAssistApp')
 
 //Get a users team
 //TODO: implement this and make it only for signed in users
-    // teamService.getTeam().then(function(json) {
-    //   that.team = json.data;
-    //   that.total = teamService.getTotal(that.team);
-    // });
+    teamService.getTeam().then(function(json) {
+      that.team = json.data;
+      //TODO:Does the team need a total? number of points?
+      // that.total = teamService.getTotal(that.team);
+    });
 
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
