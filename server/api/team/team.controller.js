@@ -48,6 +48,8 @@ exports.addPlayer = function(req, res) {
       if (err) { return handleError(res, err); }
       if (!user) { return res.send(404); }
 
+  // TODO: add Team.findById
+  // TODO: probably delete this function and the findPlayerInTeam
       // Check if player is already in team ===== Why would we use this?
       // var found = findPlayerInTeam(user, player._id);
       // if (found) {
@@ -84,14 +86,14 @@ exports.removePlayer = function(req, res) {
     if (!user) { return res.send(404); }
 
     // Check if player is already in team
-    var found = findPlayerInCart(user, teamPlayerId);
-    if (found) {
-      console.log('Removing player from team');
-      user.team.pull(found._id);               // pull is a feature of MongooseArray!
-    }
-    else {
-      return res.send(404);
-    }
+    // var found = findPlayerInCart(user, teamPlayerId);
+    // if (found) {
+    //   console.log('Removing player from team');
+    //   user.team.pull(found._id);               // pull is a feature of MongooseArray!
+    // }
+    // else {
+    //   return res.send(404);
+    // }
     user.save(function() {
       user.populate('team.player', function(err, user) {
         return res.json(201, user.team );
@@ -111,7 +113,7 @@ exports.removeAllPlayers = function(req, res) {
     if (err) { return handleError(res, err); }
     if (!user) { return res.send(404); }
 
-    user.team = new Array();
+    user.team = [];
     user.save(function() {
       user.populate('team.player', function(err, user) {
         return res.send(204, user.team);
