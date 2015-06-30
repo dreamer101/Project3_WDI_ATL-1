@@ -5,14 +5,15 @@ var Team = require('./team.model');
 var Player = require('../player/player.model');
 var User = require('../user/user.model');
 
-function findPlayerInTeam(user, id) {
-  return _.find(user.team, function(player) {
-    console.log(' 1 the user team is' + user.team + '---2 the iterate is' + JSON.stringify(player));
-    console.log('Comparing ' + player.players + ' to ' + id);
-    console.log(player.players + " is user team");
-    return player.equals(id) || player._id.equals(id);
-  });
-}
+// //Not using this
+// function findPlayerInTeam(user, id) {
+//   return _.find(user.team, function(player) {
+//     console.log(' 1 the user team is' + user.team + '---2 the iterate is' + JSON.stringify(player));
+//     console.log('Comparing ' + player.players + ' to ' + id);
+//     console.log(player.players + " is user team");
+//     return player.equals(id) || player._id.equals(id);
+//   });
+// }
 
 // Get the team from the DB.
 exports.get = function(req, res) {
