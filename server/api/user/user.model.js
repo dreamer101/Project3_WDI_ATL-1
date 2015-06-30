@@ -16,12 +16,12 @@ var UserSchema = new Schema({
   hashedPassword: String,
   provider: String,
   salt: String,
-  team: [Team.schema]
+  // team: [Team.schema]
   // DrMikes code:========
-  // team:  {
-  //   type : Schema.Types.ObjectId,
-  //   ref  : 'Team'
-  // }
+  team:  {
+    type : Schema.Types.ObjectId,
+    ref  : 'Team'
+  }
   //END DRmikes code=========
   // facebook: {},
   // twitter: {},

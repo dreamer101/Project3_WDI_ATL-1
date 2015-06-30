@@ -35,9 +35,10 @@ exports.get = function(req, res) {
 // Add a new player to the team or update the qty and return the team.
 exports.addPlayer = function(req, res) {
   console.log('addPlayer, url = ' + req.url);
-  console.log('userid is' + req.params.userid + 'playerid is: ' + req.params.playerid);
+  // console.log('userid is' + req.params.userid + 'playerid is: ' + req.params.playerid);
   var userId = req.params.userid.trim();
   var playerId = req.params.playerid.trim();
+
   console.log('userId: ' + userId + ', playerId: ' + playerId);
 
   Player.findById(playerId, function(err, player) {
@@ -47,8 +48,18 @@ exports.addPlayer = function(req, res) {
     User.findById(userId, function(err, user) {
       if (err) { return handleError(res, err); }
       if (!user) { return res.send(404); }
+      //grab teamId here b/c can't get it from the URL
+      var teamId = user.team;
+      // console.log('var teamId ====>>' + user.team);
 
-  // TODO: add Team.findById
+
+      Team.findById(teamId).populate("players").exec(function(err, team) {
+        if (err) { return handleError(res, err); }
+        if (!team) { return res.send(404); }
+
+//   // TODO: add Team.findById
+
+
   // TODO: probably delete this function and the findPlayerInTeam
       // Check if player is already in team ===== Why would we use this?
       // var found = findPlayerInTeam(user, player._id);
@@ -58,18 +69,23 @@ exports.addPlayer = function(req, res) {
       // }
       // else {
       //   console.log('Adding player to team: ' + player.name);
-      //   console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' );
-        console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
-        user.team[0].players.push( new Player( { players: player } ) );
-        console.log('the user-team-players is ' + user.team.players);
+        // console.log('the user is:' + user + 'the users team is' + team + 'the usersteamplayer are ' + team.players );
+        // console.log('the user-team-players is array?' + Array.isArray(team.players));
+        team.players.push(player);
+
+
       // }
-      user.save(function() {
-        user.populate('team.player', function(err, user) {
-          return res.json(201, user.team );
+        team.save(function() {
+          // team.populate('players', function(err, player) {
+            console.log('the player saved is' + player);
+            return res.json(201, player );
+          // });
+
         });
-      });
-    });
-  }); //end player.findbyid
+     }); //end team.findbyid
+    });//end user.findbyid
+
+  });//end player.findbyid
 
 };
 
