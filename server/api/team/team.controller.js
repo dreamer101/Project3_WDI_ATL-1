@@ -6,10 +6,11 @@ var Player = require('../player/player.model');
 var User = require('../user/user.model');
 
 function findPlayerInTeam(user, id) {
-  return _.find(user.team, function(teamPlayer) {
-    console.log('Comparing ' + teamPlayer.player + ' to ' + id);
-    console.log(user.team.players);
-    return teamPlayer.player.equals(id) || teamPlayer._id.equals(id);
+  return _.find(user.team, function(player) {
+    console.log(' 1 the user team is' + user.team + '---2 the iterate is' + JSON.stringify(player));
+    console.log('Comparing ' + player.players + ' to ' + id);
+    console.log(player.players + " is user team");
+    return player.equals(id) || player._id.equals(id);
   });
 }
 
@@ -41,28 +42,32 @@ exports.addPlayer = function(req, res) {
   Player.findById(playerId, function(err, player) {
     if (err) { return handleError(res, err); }
     if (!player) { return res.send(404); }
+
     User.findById(userId, function(err, user) {
       if (err) { return handleError(res, err); }
       if (!user) { return res.send(404); }
 
-      // Check if player is already in team
-      var found = findPlayerInTeam(user, player._id);
-      if (found) {
-        console.log('Found player ' + player.name + ' in team, therefore incrementing qty');
-        found.qty = found.qty + 1;
-      }
-      else {
-        console.log('Adding player to team: ' + player.name);
-        console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' )
-        user.team = ( new Player( { player: player } ) );
-      }
+      // Check if player is already in team ===== Why would we use this?
+      // var found = findPlayerInTeam(user, player._id);
+      // if (found) {
+      //   console.log('Found player ' + player.name + ' in team, therefore incrementing qty');
+      //   found.qty = found.qty + 1;
+      // }
+      // else {
+      //   console.log('Adding player to team: ' + player.name);
+      //   console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' );
+        console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
+        user.team[0].players.push( new Player( { players: player } ) );
+        console.log('the user-team-players is ' + user.team.players);
+      // }
       user.save(function() {
         user.populate('team.player', function(err, user) {
           return res.json(201, user.team );
         });
       });
     });
-  });
+  }); //end player.findbyid
+
 };
 
 // Remove an player from the team and return the team.

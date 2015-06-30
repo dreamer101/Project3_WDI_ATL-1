@@ -5,11 +5,13 @@ var mongoose = require('mongoose'),
 
 var TeamSchema = new Schema({
   name:     String,
-  // players: []
-  players:  {
-    type : Schema.Types.ObjectId,
-    ref  : 'Player'
-  }
+  players: [
+    {_id: String}
+  ]
+  // players:  [{
+  //   type : Schema.Types.ObjectId,
+  //   ref  : 'Player'
+  // }]
 });
 
 module.exports = mongoose.model('Team', TeamSchema);
