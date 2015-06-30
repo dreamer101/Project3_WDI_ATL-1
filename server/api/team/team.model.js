@@ -6,7 +6,7 @@ var mongoose = require('mongoose'),
 var TeamSchema = new Schema({
   name:     String,
   players: [
-    {_id: String}
+    // {_id: String}
   ]
   // players:  [{
   //   type : Schema.Types.ObjectId,
