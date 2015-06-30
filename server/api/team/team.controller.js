@@ -57,12 +57,24 @@ exports.addPlayer = function(req, res) {
       //   found.qty = found.qty + 1;
       // }
       // else {
+
+
       //   console.log('Adding player to team: ' + player.name);
       //   console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' );
-        console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
+
+      //test for array
+        // console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
+
+       //janky but was working======
         user.team[0].players.push( new Player( { players: player } ) );
-        console.log('the user-team-players is ' + user.team.players);
+      //====
+
+
+      //Campingstore way
+        // user.team.push( new Player( { player: player } ) );
+        // console.log('the user-team is ' + user.team.players);
       // }
+
       user.save(function() {
         user.populate('team.player', function(err, user) {
           return res.json(201, user.team );

@@ -4,14 +4,14 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var TeamSchema = new Schema({
-  name:     String,
-  players: [
-    // {_id: String}
-  ]
-  // players:  [{
-  //   type : Schema.Types.ObjectId,
-  //   ref  : 'Player'
-  // }]
+  // name:     String,
+  // players: [
+  //   // {_id: String}
+  // ]
+  players:  [{
+    type : Schema.Types.ObjectId,
+    ref  : 'Player'
+  }]
 });
 
 module.exports = mongoose.model('Team', TeamSchema);
