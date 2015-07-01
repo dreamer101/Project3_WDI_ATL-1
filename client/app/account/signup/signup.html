@@ -23,7 +23,7 @@
                                             'has-error': form.name.$invalid && submitted }">
           <label>Team</label>
 
-          <input type="text" name="team.name" class="form-control" ng-model="user.team.name"
+          <input type="text" name="team" class="form-control" ng-model="user.team.name"
                  required/>
           <p class="help-block" ng-show="form.team.name.$error.required && submitted">
             A team name is required
