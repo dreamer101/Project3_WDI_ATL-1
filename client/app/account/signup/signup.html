@@ -18,7 +18,18 @@
             A name is required
           </p>
         </div>
+        <!-- Create a team and pick a team name -->
+         <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted,
+                                            'has-error': form.name.$invalid && submitted }">
+          <label>Team</label>
 
+          <input type="text" name="team.name" class="form-control" ng-model="user.team.name"
+                 required/>
+          <p class="help-block" ng-show="form.team.name.$error.required && submitted">
+            A team name is required
+          </p>
+        </div>
+<!-- end team creation -->
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
                                             'has-error': form.email.$invalid && submitted }">
           <label>Email</label>
