@@ -15,7 +15,7 @@ var User = require('../user/user.model');
 //   });
 // }
 
-// Get the team from the DB.
+// Get the User's team from the DB.
 exports.get = function(req, res) {
   console.log('get, url = ' + req.url);
   var userId = req.params.userid;
@@ -35,19 +35,26 @@ User.findById(userId, function(err, user) {
 
       });//end team.findbyid
     });//end user.findbyid
-
-//
-  // User.findById(userId)
-  // .populate('team.players')
-  // .exec(function(err, user) {
-  //   console.log('user: ' + user.name + ' team: ' + user.team.players );
-  //   if (err) { return handleError(res, err); }
-  //   if (!user) { return res.send(404); }
-  //   console.log('returning team: ' + JSON.stringify(user.team.players));
-  //   res.json(200, user.team.players);
-  // });
-
 };//end of export.get function
+
+
+// mongoose docs
+// populates an array of objects
+// User.find(match, function (err, users) {
+//   var opts = [{ path: 'company', match: { x: 1 }, select: 'name' }]
+
+//   var promise = User.populate(users, opts);
+//   promise.then(console.log).end();
+// })
+// mongoose docs end
+//Get a league's(all) teams from DB
+exports.index = function(req, res) {
+  Team.find().populate("players").exec(function(err, teams){
+    if(err) { return handleError(res, err); }
+    console.log(teams);
+    return res.json(200, teams);
+  });
+};
 
 // Add a new player to the team or update the qty and return the team.
 exports.addPlayer = function(req, res) {
@@ -67,15 +74,11 @@ exports.addPlayer = function(req, res) {
       if (!user) { return res.send(404); }
       //grab teamId here b/c can't get it from the URL
       var teamId = user.team;
-      // console.log('var teamId ====>>' + user.team);
 
 
       Team.findById(teamId).populate("players").exec(function(err, team) {
         if (err) { return handleError(res, err); }
         if (!team) { return res.send(404); }
-
-//   // TODO: add Team.findById
-
 
   // TODO: probably delete this function and the findPlayerInTeam
       // Check if player is already in team ===== Why would we use this?
@@ -86,35 +89,11 @@ exports.addPlayer = function(req, res) {
       // }
       // else {
 
-
-      //   console.log('Adding player to team: ' + player.name);
-      //   console.log('the user is:' + user + 'the users team is' + user.team + 'the usersteamplayer are ' );
-
-      //test for array
-        // console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
-
-       //janky but was working======
-      //====
-
-
-      //Campingstore way
-        // user.team.push( new Player( { player: player } ) );
-        // console.log('the user-team is ' + user.team.players);
-      // }
-
-
-        // console.log('the user is:' + user + 'the users team is' + team + 'the usersteamplayer are ' + team.players );
-        // console.log('the user-team-players is array?' + Array.isArray(team.players));
         team.players.push(player);
 
-
-      // }
         team.save(function() {
-          // team.populate('players', function(err, player) {
             console.log('the player saved is' + player);
             return res.json(201, player );
-          // });
-
         });
      }); //end team.findbyid
     });//end user.findbyid

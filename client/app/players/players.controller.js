@@ -32,19 +32,30 @@ that.getUserTeam = function(){
       that.team = json.data;
       // that.total = teamService.getTotal(that.team);
     });
-}
+};
+
+//Gets all teams
+that.getAllTeams = function() {
+  teamService.getAllTeams().then(function(json) {
+    that.allTeams = json.data;
+  });
+};
+
 that.getUserTeam();
+that.getAllTeams();
 
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
 
       that.getUserTeam();
+      that.getAllTeams();
       //TODO: FINISH THIS:
       //hide player:
       // playerService.hidePlayer(player);
 
       //TODO: that.getRoster();
       console.log(that.team);
+      console.log(that.allTeams);
     }, function(err) {
       console.log('ERROR: addPlayer post: ' + JSON.stringify(err));
     });

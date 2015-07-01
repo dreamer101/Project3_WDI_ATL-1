@@ -144,18 +144,29 @@ function createPlayers() {
 
 function addPlayerToUser(players) {
   User.find({}).populate('team').exec(function(err, users) {
-    var user = users[0];
-    var player = players[0];
-    var team = user.team;
-    team.players.push(player);
-    console.log("===> USER: " + JSON.stringify(user));
+    var user1 = users[0];
+    var player1 = players[0];
+    var team1 = user1.team;
+    var user2 = users[1];
+    var player2 = players[1];
+    var team2 =  user2.team;
+    team1.players.push(player1);
+    team2.players.push(player2);
+    console.log("===> USER1: " + JSON.stringify(user1));
 
-    Player.findById(player._id, function(err, player) {
-      console.log("===> PLAYER: " + JSON.stringify(player));
+    Player.findById(player1._id, function(err, player1) {
+      console.log("===> PLAYER: " + JSON.stringify(player1));
     });
 
-    team.save(function() {
-      console.log("===> TEAM SAVED: " + JSON.stringify(team));
+    Player.findById(player2._id, function(err, player2) {
+      console.log("===> PLAYER: " + JSON.stringify(player2));
+    });
+
+    team1.save(function() {
+      console.log("===> TEAM SAVED: " + JSON.stringify(team1));
+    });
+    team2.save(function() {
+      console.log("===> TEAM SAVED: " + JSON.stringify(team2));
     });
   });
 }

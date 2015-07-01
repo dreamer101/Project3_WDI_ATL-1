@@ -4,12 +4,18 @@ angular.module('draftAssistApp')
 .service('teamService', function($http, Auth) {
 
   var that = this;
-
+//Team functions
+  //Gets user's team
  that.getTeam = function() {
     var userId = Auth.getCurrentUser()._id;
     return $http.get('/api/users/' + userId + '/team/');
   };
 
+  //Gets all teams
+  that.getAllTeams = function() {
+    return $http.get('/api/teams');
+  }
+//Player functions
   that.addPlayer = function(player) {
     var userId = Auth.getCurrentUser()._id;
     console.log('the playerid is ' + player._id);
