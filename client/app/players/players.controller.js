@@ -55,6 +55,7 @@ that.hidePlayer = function(player) {
       that.getUserTeam();
       that.getAllTeams();
       that.hidePlayer(player);
+      that.getRoster();
       //TODO: that.getRoster();
       console.log(that.team);
     }, function(err) {

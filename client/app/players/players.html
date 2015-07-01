@@ -16,8 +16,9 @@
 <section class="container players">
   <div class="list-group">
     <div class="row">
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 animate-roster"
-           ng-repeat="player in filteredPlayers = ( ctrl.roster | playerFilter : ctrl.searchText | orderBy: 'projPts' )" ng-hide="selected">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12"
+           ng-repeat="player in filteredPlayers = ( ctrl.roster | playerFilter : ctrl.searchText | orderBy: 'projPts' )"
+           ng-hide="player.selected">
         <a ng-click="ctrl.goPlayer(player)" class="list-group-player">
           <h3>{{ player.name }}</h3>
           <article class="row">
