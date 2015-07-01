@@ -43,14 +43,18 @@ that.getAllTeams = function() {
 that.getUserTeam();
 that.getAllTeams();
 
-
+that.hidePlayer = function(player) {
+  playerService.hidePlayer(player).then(function(json) {
+    that.roster = json.data;
+  });
+}
 
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
 
       that.getUserTeam();
       that.getAllTeams();
-
+      that.hidePlayer(player);
       //TODO: that.getRoster();
       console.log(that.team);
     }, function(err) {

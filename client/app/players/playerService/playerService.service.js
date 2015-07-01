@@ -13,8 +13,9 @@ angular.module('draftAssistApp')
     return $http.get('/api/players');
   };
 //TODO: finish this
+//targets player in DB and changes their status
   that.hidePlayer = function(player) {
-    console.log('the playerid is ' + player._id)
+    console.log('===>>the playerid  being hidden is ' + player._id)
     var playerId = player._id;
     return $http.patch('api/players/' + playerId, {selected: true});
 };
