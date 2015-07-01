@@ -26,19 +26,30 @@ angular.module('draftAssistApp')
 
 //Get a users team
 //TODO: implement this and make it only for signed in users
-    // teamService.getTeam().then(function(json) {
-    //   that.team = json.data;
-    //   that.total = teamService.getTotal(that.team);
-    // });
-
+that.getUserTeam = function(){
+    teamService.getTeam().then(function(json) {
+      that.team = json.data;
+      console.log(json, 'first json');
+      // that.total = teamService.getTotal(that.team);
+    });
+}
+that.getUserTeam();
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
-      that.team = json.data;
-      that.total = teamService.getTotal(that.team);
+      console.log(json, 'second json');
+      // that.team += json.data;
+      // teamService.getTeam().then(function(json) {
+      //   that.team = json.data;
+      // })
+      that.getUserTeam();
+
+      console.log(that.team);
+      // that.total = teamService.getTotal(that.team);
     }, function(err) {
       console.log('ERROR: addPlayer post: ' + JSON.stringify(err));
     });
   };
+
 
   // that.removePlayer = function(player) {
   //   teamService.removePlayer(player).then(function(json) {

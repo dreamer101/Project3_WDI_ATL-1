@@ -20,17 +20,34 @@ exports.get = function(req, res) {
   console.log('get, url = ' + req.url);
   var userId = req.params.userid;
   console.log('userId: ' + userId);
+//New function
 
-  User.findById(userId)
-  .populate('team.player')
-  .exec(function(err, user) {
-    console.log('user: ' + user.name);
-    if (err) { return handleError(res, err); }
-    if (!user) { return res.send(404); }
-    console.log('returning team: ' + JSON.stringify(user.team));
-    res.json(200, user.team);
-  });
-};
+User.findById(userId, function(err, user) {
+      if (err) { return handleError(res, err); }
+      if (!user) { return res.send(404); }
+      var teamId = user.team;
+
+      Team.findById(teamId).populate("players").exec(function(err, team) {
+        if (err) { return handleError(res, err); }
+        if (!team) { return res.send(404); }
+        console.log('returning team: ' + JSON.stringify(team.players));
+        res.json(200, team.players);
+
+      });//end team.findbyid
+    });//end user.findbyid
+
+//
+  // User.findById(userId)
+  // .populate('team.players')
+  // .exec(function(err, user) {
+  //   console.log('user: ' + user.name + ' team: ' + user.team.players );
+  //   if (err) { return handleError(res, err); }
+  //   if (!user) { return res.send(404); }
+  //   console.log('returning team: ' + JSON.stringify(user.team.players));
+  //   res.json(200, user.team.players);
+  // });
+
+};//end of export.get function
 
 // Add a new player to the team or update the qty and return the team.
 exports.addPlayer = function(req, res) {
