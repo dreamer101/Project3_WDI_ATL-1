@@ -16,6 +16,8 @@ angular.module('draftAssistApp')
     return $http.post('/api/users/' + userId + '/team/' + player._id);
   };
 
+
+
   that.removePlayer = function(teamPlayer) {
     var userId = Auth.getCurrentUser()._id;
     return $http.delete('/api/users/' + userId + '/team/' + teamPlayer._id);

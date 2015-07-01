@@ -34,17 +34,17 @@ that.getUserTeam = function(){
     });
 }
 that.getUserTeam();
+
   that.addPlayer = function(player) {
     teamService.addPlayer(player).then(function(json) {
-      console.log(json, 'second json');
-      // that.team += json.data;
-      // teamService.getTeam().then(function(json) {
-      //   that.team = json.data;
-      // })
-      that.getUserTeam();
 
+      that.getUserTeam();
+      //TODO: FINISH THIS:
+      //hide player:
+      // playerService.hidePlayer(player);
+
+      //TODO: that.getRoster();
       console.log(that.team);
-      // that.total = teamService.getTotal(that.team);
     }, function(err) {
       console.log('ERROR: addPlayer post: ' + JSON.stringify(err));
     });
