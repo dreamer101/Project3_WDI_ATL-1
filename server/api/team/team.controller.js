@@ -20,24 +20,42 @@ exports.get = function(req, res) {
   console.log('get, url = ' + req.url);
   var userId = req.params.userid;
   console.log('userId: ' + userId);
+//New function
 
-  User.findById(userId)
-  .populate('team.player')
-  .exec(function(err, user) {
-    console.log('user: ' + user.name);
-    if (err) { return handleError(res, err); }
-    if (!user) { return res.send(404); }
-    console.log('returning team: ' + JSON.stringify(user.team));
-    res.json(200, user.team);
-  });
-};
+User.findById(userId, function(err, user) {
+      if (err) { return handleError(res, err); }
+      if (!user) { return res.send(404); }
+      var teamId = user.team;
+
+      Team.findById(teamId).populate("players").exec(function(err, team) {
+        if (err) { return handleError(res, err); }
+        if (!team) { return res.send(404); }
+        console.log('returning team: ' + JSON.stringify(team.players));
+        res.json(200, team.players);
+
+      });//end team.findbyid
+    });//end user.findbyid
+
+//
+  // User.findById(userId)
+  // .populate('team.players')
+  // .exec(function(err, user) {
+  //   console.log('user: ' + user.name + ' team: ' + user.team.players );
+  //   if (err) { return handleError(res, err); }
+  //   if (!user) { return res.send(404); }
+  //   console.log('returning team: ' + JSON.stringify(user.team.players));
+  //   res.json(200, user.team.players);
+  // });
+
+};//end of export.get function
 
 // Add a new player to the team or update the qty and return the team.
 exports.addPlayer = function(req, res) {
   console.log('addPlayer, url = ' + req.url);
-  console.log('userid is' + req.params.userid + 'playerid is: ' + req.params.playerid);
+  // console.log('userid is' + req.params.userid + 'playerid is: ' + req.params.playerid);
   var userId = req.params.userid.trim();
   var playerId = req.params.playerid.trim();
+
   console.log('userId: ' + userId + ', playerId: ' + playerId);
 
   Player.findById(playerId, function(err, player) {
@@ -47,8 +65,18 @@ exports.addPlayer = function(req, res) {
     User.findById(userId, function(err, user) {
       if (err) { return handleError(res, err); }
       if (!user) { return res.send(404); }
+      //grab teamId here b/c can't get it from the URL
+      var teamId = user.team;
+      // console.log('var teamId ====>>' + user.team);
 
-  // TODO: add Team.findById
+
+      Team.findById(teamId).populate("players").exec(function(err, team) {
+        if (err) { return handleError(res, err); }
+        if (!team) { return res.send(404); }
+
+//   // TODO: add Team.findById
+
+
   // TODO: probably delete this function and the findPlayerInTeam
       // Check if player is already in team ===== Why would we use this?
       // var found = findPlayerInTeam(user, player._id);
@@ -66,7 +94,6 @@ exports.addPlayer = function(req, res) {
         // console.log('the user-team-players is array?' + Array.isArray(user.team[0].players));
 
        //janky but was working======
-        user.team[0].players.push( new Player( { players: player } ) );
       //====
 
 
@@ -75,13 +102,24 @@ exports.addPlayer = function(req, res) {
         // console.log('the user-team is ' + user.team.players);
       // }
 
-      user.save(function() {
-        user.populate('team.player', function(err, user) {
-          return res.json(201, user.team );
+
+        // console.log('the user is:' + user + 'the users team is' + team + 'the usersteamplayer are ' + team.players );
+        // console.log('the user-team-players is array?' + Array.isArray(team.players));
+        team.players.push(player);
+
+
+      // }
+        team.save(function() {
+          // team.populate('players', function(err, player) {
+            console.log('the player saved is' + player);
+            return res.json(201, player );
+          // });
+
         });
-      });
-    });
-  }); //end player.findbyid
+     }); //end team.findbyid
+    });//end user.findbyid
+
+  });//end player.findbyid
 
 };
 

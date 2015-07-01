@@ -2,12 +2,10 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-
+var Player = require('../player/player.model');
 var TeamSchema = new Schema({
-  // name:     String,
-  // players: [
-  //   // {_id: String}
-  // ]
+  name:     String,
+  //Dr Mike's idea=====
   players:  [{
     type : Schema.Types.ObjectId,
     ref  : 'Player'

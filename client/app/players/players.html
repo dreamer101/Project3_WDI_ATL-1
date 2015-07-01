@@ -7,7 +7,9 @@
             ng-click="ctrl.searchText = ''">Reset</button>
   </form>
 </section>
-
+<!-- check to see if team gets pulled -->
+{{ctrl.team}}
+<!--  -->
 <section class="container players">
   <div class="list-group">
     <div class="row">
@@ -44,7 +46,7 @@
   </div>
 </section>
 
-<section class="team text-center">
+<!-- <section class="team text-center">
   <h2>Your Team:</h2>
   {{ctrl.team[0].players[0].name}}
   <ul>
@@ -56,4 +58,4 @@
   <h3>Total Projected Points: {{ ctrl.total }} </h3>
   <br>
   <button class="btn btn-danger" ng-click="ctrl.clearTeam()">Clear Team</button>
-</section>
+</section> -->
