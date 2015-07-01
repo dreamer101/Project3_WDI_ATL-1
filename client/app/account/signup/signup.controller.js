@@ -12,8 +12,8 @@ angular.module('draftAssistApp')
         Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
-          password: $scope.user.password,
-          team: $scope.user.team
+          password: $scope.user.password
+          // team: $scope.user.team
         })
         .then( function() {
           // Account created, redirect to home

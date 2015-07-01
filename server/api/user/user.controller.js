@@ -4,7 +4,8 @@ var User = require('./user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
-
+// var teamController = require('../team/team.controller');
+var Team = require('../team/team.model');
 var validationError = function(res, err) {
   return res.json(422, err);
 };
@@ -25,6 +26,13 @@ exports.index = function(req, res) {
  */
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
+  //TODO: farm this out to the team controller - this works but isn't pretty
+  var team = new Team({players:[]});
+  team.save(function(err, user) {
+    if (err) return validationError(res, err);
+    console.log(team + 'team saved');
+    });
+  newUser.team = team;
   newUser.provider = 'local';
   newUser.role = 'user';
   newUser.save(function(err, user) {

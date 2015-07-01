@@ -5,15 +5,14 @@ var Team = require('./team.model');
 var Player = require('../player/player.model');
 var User = require('../user/user.model');
 
-// //Not using this
-// function findPlayerInTeam(user, id) {
-//   return _.find(user.team, function(player) {
-//     console.log(' 1 the user team is' + user.team + '---2 the iterate is' + JSON.stringify(player));
-//     console.log('Comparing ' + player.players + ' to ' + id);
-//     console.log(player.players + " is user team");
-//     return player.equals(id) || player._id.equals(id);
-//   });
-// }
+//Create a team
+
+exports.create = function(req, res) {
+  Team.create(req.body, function(err, team) {
+    if(err) { return handleError(res, err);}
+    return res.json(201, team);
+  });
+};
 
 // Get the User's team from the DB.
 exports.get = function(req, res) {
@@ -38,15 +37,8 @@ User.findById(userId, function(err, user) {
 };//end of export.get function
 
 
-// mongoose docs
-// populates an array of objects
-// User.find(match, function (err, users) {
-//   var opts = [{ path: 'company', match: { x: 1 }, select: 'name' }]
 
-//   var promise = User.populate(users, opts);
-//   promise.then(console.log).end();
-// })
-// mongoose docs end
+
 //Get a league's(all) teams from DB
 exports.index = function(req, res) {
   Team.find().populate("players").exec(function(err, teams){
@@ -63,7 +55,6 @@ exports.addPlayer = function(req, res) {
   var userId = req.params.userid.trim();
   var playerId = req.params.playerid.trim();
 
-  console.log('userId: ' + userId + ', playerId: ' + playerId);
 
   Player.findById(playerId, function(err, player) {
     if (err) { return handleError(res, err); }
@@ -75,7 +66,8 @@ exports.addPlayer = function(req, res) {
       //grab teamId here b/c can't get it from the URL
       var teamId = user.team;
 
-
+      console.log(teamId);
+      console.log('userId: ' + userId + ', playerId: ' + playerId);
       Team.findById(teamId).populate("players").exec(function(err, team) {
         if (err) { return handleError(res, err); }
         if (!team) { return res.send(404); }
@@ -88,7 +80,6 @@ exports.addPlayer = function(req, res) {
       //   found.qty = found.qty + 1;
       // }
       // else {
-
         team.players.push(player);
 
         team.save(function() {
