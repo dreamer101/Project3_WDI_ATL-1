@@ -29,7 +29,12 @@
 
 <div>
 <h4>All Teams</h4>
-  {{ctrl.allTeams}}
+<div ng-repeat="team in ctrl.allTeams">
+
+  <li ng-repeat="player in team.players">{{player.name}}</li>
+
+</div>
+
 </div>
 <!-- <accordion>
 <accordion-group> -->

@@ -38,6 +38,7 @@ that.getUserTeam = function(){
 that.getAllTeams = function() {
   teamService.getAllTeams().then(function(json) {
     that.allTeams = json.data;
+    socket.syncUpdates('team', that.allTeams);
   });
 }
 
