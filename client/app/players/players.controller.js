@@ -15,6 +15,7 @@ angular.module('draftAssistApp')
   that.getRoster = function() {
     playerService.getPlayers().then(function(json) {
       that.roster = json.data;
+      socket.syncUpdates('player', that.roster);
     });
   };
 

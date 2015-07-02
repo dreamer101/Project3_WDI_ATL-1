@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('draftAssistApp')
-.service('teamService', function($http, Auth) {
+.service('teamService', function($http, Auth, socket) {
 
   var that = this;
 //Team functions

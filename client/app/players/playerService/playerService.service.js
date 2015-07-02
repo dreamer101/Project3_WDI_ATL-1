@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('draftAssistApp')
-  .service('playerService', function ($http) {
+  .service('playerService', function ($http, socket) {
 
  var that = this;
 
