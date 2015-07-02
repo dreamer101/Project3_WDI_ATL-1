@@ -31,6 +31,7 @@ angular.module('draftAssistApp')
 that.getUserTeam = function(){
     teamService.getTeam().then(function(json) {
       that.team = json.data;
+      socket.syncUpdates('player', that.team);
       // that.total = teamService.getTotal(that.team);
     });
 }
